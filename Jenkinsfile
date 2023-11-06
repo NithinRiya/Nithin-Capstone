@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     stages {
+<<<<<<< HEAD
         stage('Checkout') {
             steps {
                 // Checkout the source code from your version control system (e.g., Git)
@@ -40,5 +41,12 @@ pipeline {
         failure {
             // Notify on failure (e.g., send a Slack message or email)
         }
+=======
+        stage('Build') {
+            steps {
+                sh 'echo "Building the application"'
+            }
+        }
+>>>>>>> origin/dev
     }
 }
