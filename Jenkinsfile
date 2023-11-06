@@ -23,27 +23,27 @@ pipeline {
             }
         }
 
-        stage('Deploy to Docker') {
+        stage('Build and Push Docker Image') {
+            when {
+                anyOf {
+                    branch 'dev'
+                    branch 'master'
+                }
+            }
             steps {
-                sh 'docker-compose up -d'
+                script {
+                    def branch = env.BRANCH_NAME
+                    def tag = branch == 'master' ? 'prod' : 'dev'
+                    def dockerImage = "nithinriya/myapp-${tag}:1.0"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD"
+                        sh "docker build -t ${dockerImage} ."
+                        sh "docker push ${dockerImage}"
+                    }
+                }
             }
         }
     }
 
-    post {
-        failure {
-            emailext(
-                subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
-                body: "The pipeline for ${env.JOB_NAME} has failed.",
-                to: 'your-email@example.com'
-            )
-        }
-        success {
-            emailext(
-                subject: "Pipeline Successful: ${currentBuild.fullDisplayName}",
-                body: "The pipeline for ${env.JOB_NAME} has succeeded.",
-                to: 'mnithin243@gmail.com'
-            )
-        }
-    }
+    // ... (rest of your Jenkinsfile)
 }
