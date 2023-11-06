@@ -2,51 +2,48 @@ pipeline {
     agent any
 
     stages {
-<<<<<<< HEAD
         stage('Checkout') {
             steps {
-                // Checkout the source code from your version control system (e.g., Git)
                 checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                // Install Node.js and project dependencies
+                // Replace with your build commands
                 sh 'npm install'
-                // Build your application (e.g., compile TypeScript, bundle assets, etc.)
                 sh 'npm run build'
             }
         }
 
         stage('Test') {
             steps {
-                // Run your tests (e.g., unit tests, integration tests)
+                // Replace with your test commands
                 sh 'npm test'
             }
         }
 
-        stage('Deploy') {
+        stage('Build and Push Docker Image') {
+            when {
+                anyOf {
+                    branch 'dev'
+                    branch 'master'
+                }
+            }
             steps {
-                // Deploy your application (e.g., copy files to a server, upload to a cloud provider)
-                // Replace this with your deployment steps
+                script {
+                    def branch = env.BRANCH_NAME
+                    def tag = branch == 'master' ? 'prod' : 'dev'
+                    def dockerImage = "nithinriya/myapp-${tag}:1.0"
+                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD"
+                        sh "docker build -t ${dockerImage} ."
+                        sh "docker push ${dockerImage}"
+                    }
+                }
             }
         }
     }
 
-    post {
-        success {
-            // Notify on success (e.g., send a Slack message or email)
-        }
-        failure {
-            // Notify on failure (e.g., send a Slack message or email)
-        }
-=======
-        stage('Build') {
-            steps {
-                sh 'echo "Building the application"'
-            }
-        }
->>>>>>> origin/dev
-    }
+    // ... (rest of your Jenkinsfile)
 }
