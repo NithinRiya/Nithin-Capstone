@@ -10,42 +10,42 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Replace with your build commands
-                sh 'npm install'
-                sh 'npm run build'
+                sh 'npm install'        // Install project dependencies
+                sh 'npm run build'      // Build the application
             }
         }
 
         stage('Test') {
             steps {
-                // Replace with your test commands
-                sh 'npm test'
+                sh 'npm test'           // Run tests
             }
         }
 
         stage('Deploy to Staging') {
             when {
                 expression {
-                    // Define conditions to deploy to staging
                     currentBuild.resultIsBetterOrEqualTo('SUCCESS')
                 }
             }
             steps {
-                // Replace with your deployment commands for staging environment
-                sh 'rsync -avz ./dist/ user@staging-server:/var/www/app'
+                script {
+                    // Replace with your deployment commands for staging environment
+                    sh 'rsync -avz ./dist/ ubuntu@54.165.242.85:/var/www/app'
+                }
             }
         }
 
         stage('Deploy to Production') {
             when {
                 expression {
-                    // Define conditions to deploy to production (e.g., merging to master)
-                    branch 'master'
+                    branch 'master'     // Deploy when code is merged into the 'master' branch
                 }
             }
             steps {
-                // Replace with your deployment commands for production environment
-                sh 'rsync -avz ./dist/ user@production-server:/var/www/app'
+                script {
+                    // Replace with your deployment commands for production environment
+                    sh 'rsync -avz ./dist/ ubuntu@54.165.242.85:/var/www/app'
+                }
             }
         }
     }
@@ -55,15 +55,16 @@ pipeline {
             emailext(
                 subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
                 body: "The pipeline for ${env.JOB_NAME} has failed.",
-                to: 'your-email@example.com'
+                to: 'your-email@example.com'  // Update the email address
             )
         }
         success {
             emailext(
                 subject: "Pipeline Successful: ${currentBuild.fullDisplayName}",
                 body: "The pipeline for ${env.JOB_NAME} has succeeded.",
-                to: 'mnithin243@gmail.com'
+                to: 'mnithin243@gmail.com'  // Update the email address
             )
         }
     }
 }
+
