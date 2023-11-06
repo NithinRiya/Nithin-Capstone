@@ -10,42 +10,22 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'npm install'        // Install project dependencies
-                sh 'npm run build'      // Build the application
+                // Replace with your build commands
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
 
         stage('Test') {
             steps {
-                sh 'npm test'           // Run tests
+                // Replace with your test commands
+                sh 'npm test'
             }
         }
 
-        stage('Deploy to Staging') {
-            when {
-                expression {
-                    currentBuild.resultIsBetterOrEqualTo('SUCCESS')
-                }
-            }
+        stage('Deploy to Docker') {
             steps {
-                script {
-                    // Replace with your deployment commands for staging environment
-                    sh 'rsync -avz ./dist/ ubuntu@54.165.242.85:/var/www/app'
-                }
-            }
-        }
-
-        stage('Deploy to Production') {
-            when {
-                expression {
-                    branch 'master'     // Deploy when code is merged into the 'master' branch
-                }
-            }
-            steps {
-                script {
-                    // Replace with your deployment commands for production environment
-                    sh 'rsync -avz ./dist/ ubuntu@54.165.242.85:/var/www/app'
-                }
+                sh 'docker-compose up -d'
             }
         }
     }
@@ -55,16 +35,15 @@ pipeline {
             emailext(
                 subject: "Pipeline Failed: ${currentBuild.fullDisplayName}",
                 body: "The pipeline for ${env.JOB_NAME} has failed.",
-                to: 'your-email@example.com'  // Update the email address
+                to: 'your-email@example.com'
             )
         }
         success {
             emailext(
                 subject: "Pipeline Successful: ${currentBuild.fullDisplayName}",
                 body: "The pipeline for ${env.JOB_NAME} has succeeded.",
-                to: 'mnithin243@gmail.com'  // Update the email address
+                to: 'mnithin243@gmail.com'
             )
         }
     }
 }
-
