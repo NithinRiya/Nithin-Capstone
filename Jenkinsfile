@@ -2,48 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                // Replace with your build commands
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                // Replace with your test commands
-                sh 'npm test'
-            }
-        }
-
         stage('Build and Push Docker Image') {
             when {
-                anyOf {
-                    branch 'dev'
-                    branch 'master'
-                }
+                expression { currentBuild.changeSets.any { it.branch == 'origin/master' } }
             }
             steps {
                 script {
-                    def branch = env.BRANCH_NAME
-                    def tag = branch == 'master' ? 'prod' : 'dev'
-                    def dockerImage = "nithinriya/myapp-${tag}:1.0"
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "docker login -u \$DOCKER_USERNAME -p \$DOCKER_PASSWORD"
-                        sh "docker build -t ${dockerImage} ."
-                        sh "docker push ${dockerImage}"
-                    }
+                    def imageName = 'your-image-name'
+                    def imageTag = 'latest'
+                    def dockerRegistry = 'your-production-registry.com'
+                    
+                    // Tag the Docker image for production
+                    sh "docker tag nithinriya/myapp-dev:1.0 $dockerRegistry/$imageName:$imageTag"
+                    
+                    // Push the Docker image to the production registry
+                    sh "docker push $dockerRegistry/$imageName:$imageTag"
                 }
             }
         }
     }
-
-    // ... (rest of your Jenkinsfile)
 }
