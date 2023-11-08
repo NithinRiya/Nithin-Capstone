@@ -1,24 +1,28 @@
 pipeline {
     agent any
 
+    environment {
+        // Define environment variables for the Docker image
+        DOCKER_IMAGE = 'nithinriya/myapp-dev'
+        DOCKER_TAG = '1.0'
+    }
+
     stages {
-        stage('Build and Push Docker Image') {
-            when {
-                expression { currentBuild.changeSets.any { it.branch == 'origin/master' } }
-            }
+        stage('Build and Push') {
             steps {
                 script {
-                    def imageName = 'your-image-name'
-                    def imageTag = 'latest'
-                    def dockerRegistry = 'your-production-registry.com'
-                    
-                    // Tag the Docker image for production
-                    sh "docker tag nithinriya/myapp-dev:1.0 $dockerRegistry/$imageName:$imageTag"
-                    
-                    // Push the Docker image to the production registry
-                    sh "docker push $dockerRegistry/$imageName:$imageTag"
+                    // Checkout the code
+                    checkout scm
+
+                    // Build and tag the Docker image
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+
+                    // Push the Docker image to Docker Hub
+                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
         }
+
+        // Add more stages for testing, deployment, etc.
     }
 }
