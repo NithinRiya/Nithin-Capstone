@@ -1,3 +1,4 @@
+
 pipeline {
     agent any
 
@@ -25,18 +26,6 @@ pipeline {
             }
         }
 
-        stage('Build and Push to Prod') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                }
-            }
-        }
-
         stage('Testing') {
             steps {
                 // Add steps for running tests (e.g., unit tests, integration tests)
@@ -47,6 +36,18 @@ pipeline {
             steps {
                 // Add steps for deploying your application to the desired environment
                 // For example, you can use a deployment script here
+            }
+        }
+
+        stage('Build and Push to Prod') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                }
             }
         }
     }
