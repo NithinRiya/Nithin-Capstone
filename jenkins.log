@@ -1,0 +1,48 @@
+nohup: ignoring input
+Running from: /usr/share/java/jenkins.war
+webroot: /root/.jenkins/war
+2023-11-12 18:35:38.942+0000 [id=1]	INFO	winstone.Logger#logInternal: Beginning extraction from war file
+2023-11-12 18:35:39.106+0000 [id=1]	WARNING	o.e.j.s.handler.ContextHandler#setContextPath: Empty contextPath
+2023-11-12 18:35:39.282+0000 [id=1]	INFO	org.eclipse.jetty.server.Server#doStart: jetty-10.0.17; built: 2023-10-02T04:04:10.314Z; git: a0f5f05abaa6c3aabb7c3d35f10a6f412ab8b05f; jvm 11.0.20.1+1-post-Ubuntu-0ubuntu122.04
+2023-11-12 18:35:40.332+0000 [id=1]	INFO	o.e.j.w.StandardDescriptorProcessor#visitServlet: NO JSP Support for /, did not find org.eclipse.jetty.jsp.JettyJspServlet
+2023-11-12 18:35:40.510+0000 [id=1]	INFO	o.e.j.s.s.DefaultSessionIdManager#doStart: Session workerName=node0
+2023-11-12 18:35:41.712+0000 [id=1]	INFO	hudson.WebAppMain#contextInitialized: Jenkins home directory: /root/.jenkins found at: $user.home/.jenkins
+2023-11-12 18:35:42.095+0000 [id=1]	INFO	o.e.j.s.handler.ContextHandler#doStart: Started w.@7561db12{Jenkins v2.414.3,/,file:///root/.jenkins/war/,AVAILABLE}{/root/.jenkins/war}
+2023-11-12 18:35:42.136+0000 [id=1]	INFO	o.e.j.server.AbstractConnector#doStart: Started ServerConnector@2d2e5f00{HTTP/1.1, (http/1.1)}{0.0.0.0:8081}
+2023-11-12 18:35:42.177+0000 [id=1]	INFO	org.eclipse.jetty.server.Server#doStart: Started Server@f2f2cc1{STARTING}[10.0.17,sto=0] @4521ms
+2023-11-12 18:35:42.193+0000 [id=23]	INFO	winstone.Logger#logInternal: Winstone Servlet Engine running: controlPort=disabled
+2023-11-12 18:35:42.846+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Started initialization
+2023-11-12 18:35:43.375+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Listed all plugins
+2023-11-12 18:35:53.180+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Prepared all plugins
+2023-11-12 18:35:53.342+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Started all plugins
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.codehaus.groovy.vmplugin.v7.Java7$1 (file:/root/.jenkins/war/WEB-INF/lib/groovy-all-2.4.21.jar) to constructor java.lang.invoke.MethodHandles$Lookup(java.lang.Class,int)
+WARNING: Please consider reporting this to the maintainers of org.codehaus.groovy.vmplugin.v7.Java7$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
+2023-11-12 18:35:55.325+0000 [id=28]	WARNING	o.j.p.p.c.PrometheusConfiguration#lambda$parseLongFromEnv$1: COLLECTING_METRICS_PERIOD_IN_SECONDS must be a positive integer. The default value: '120' will be used instead of provided.
+2023-11-12 18:35:55.326+0000 [id=28]	WARNING	o.j.p.p.c.PrometheusConfiguration#setCollectDiskUsageBasedOnEnvironmentVariableIfDefined: Unable to parse environment variable 'COLLECT_DISK_USAGE'. Must either be 'true' or 'false'. Ignoring...
+2023-11-12 18:35:55.394+0000 [id=28]	INFO	h.p.b.g.GlobalTimeOutConfiguration#load: global timeout not set
+2023-11-12 18:35:55.768+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Augmented all extensions
+2023-11-12 18:35:56.855+0000 [id=29]	WARNING	o.j.p.p.DiskUsageCollector#collect: Cannot collect disk usage data because plugin CloudBees Disk Usage Simple is not installed: java.lang.NoClassDefFoundError: com/cloudbees/simplediskusage/QuickDiskUsagePlugin
+2023-11-12 18:35:56.961+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: System config loaded
+2023-11-12 18:35:56.964+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: System config adapted
+2023-11-12 18:35:57.017+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Loaded all jobs
+2023-11-12 18:35:57.039+0000 [id=29]	INFO	jenkins.InitReactorRunner$1#onAttained: Configuration for all jobs updated
+2023-11-12 18:35:57.180+0000 [id=28]	INFO	jenkins.InitReactorRunner$1#onAttained: Completed initialization
+2023-11-12 18:35:57.244+0000 [id=22]	INFO	hudson.lifecycle.Lifecycle#onReady: Jenkins is fully up and running
+2023-11-12 18:36:49.451+0000 [id=59]	WARNING	o.j.p.p.DiskUsageCollector#collect: Cannot collect disk usage data because plugin CloudBees Disk Usage Simple is not installed: java.lang.NoClassDefFoundError: com/cloudbees/simplediskusage/QuickDiskUsagePlugin
+2023-11-12 18:38:34.177+0000 [id=68]	WARNING	o.j.p.p.DiskUsageCollector#collect: Cannot collect disk usage data because plugin CloudBees Disk Usage Simple is not installed: java.lang.NoClassDefFoundError: com/cloudbees/simplediskusage/QuickDiskUsagePlugin
+2023-11-12 18:39:26.179+0000 [id=24]	INFO	winstone.Logger#logInternal: JVM is terminating. Shutting down Jetty
+2023-11-12 18:39:26.183+0000 [id=24]	INFO	org.eclipse.jetty.server.Server#doStop: Stopped Server@f2f2cc1{STOPPING}[10.0.17,sto=0]
+2023-11-12 18:39:26.195+0000 [id=24]	INFO	o.e.j.server.AbstractConnector#doStop: Stopped ServerConnector@2d2e5f00{HTTP/1.1, (http/1.1)}{0.0.0.0:8081}
+2023-11-12 18:39:26.222+0000 [id=24]	INFO	hudson.lifecycle.Lifecycle#onStatusUpdate: Stopping Jenkins
+2023-11-12 18:39:26.346+0000 [id=24]	INFO	jenkins.model.Jenkins$16#onAttained: Started termination
+2023-11-12 18:39:26.363+0000 [id=24]	INFO	h.p.b.global.Lifecycle#shutdown: Shutdown complete - Global TimeOut ScheduledExecutorService had 0 tasks pending
+2023-11-12 18:39:26.442+0000 [id=24]	INFO	jenkins.model.Jenkins$16#onAttained: Completed termination
+2023-11-12 18:39:26.455+0000 [id=24]	INFO	jenkins.model.Jenkins#_cleanUpDisconnectComputers: Starting node disconnection
+2023-11-12 18:39:26.471+0000 [id=24]	INFO	jenkins.model.Jenkins#_cleanUpShutdownPluginManager: Stopping plugin manager
+2023-11-12 18:39:26.602+0000 [id=24]	INFO	jenkins.model.Jenkins#_cleanUpPersistQueue: Persisting build queue
+2023-11-12 18:39:26.622+0000 [id=24]	INFO	jenkins.model.Jenkins#_cleanUpAwaitDisconnects: Waiting for node disconnection completion
+2023-11-12 18:39:26.622+0000 [id=24]	INFO	hudson.lifecycle.Lifecycle#onStatusUpdate: Jenkins stopped
+2023-11-12 18:39:26.625+0000 [id=24]	INFO	o.e.j.s.handler.ContextHandler#doStop: Stopped w.@7561db12{Jenkins v2.414.3,/,null,STOPPED}{/root/.jenkins/war}
