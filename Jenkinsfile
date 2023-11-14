@@ -1,10 +1,10 @@
-
 pipeline {
     agent any
 
     environment {
         DOCKER_IMAGE = 'nithinriya/myapp-dev'
         DOCKER_TAG = '1.0'
+        DOCKER_CMD = "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
     }
 
     stages {
@@ -14,13 +14,23 @@ pipeline {
             }
         }
 
-        stage('Build and Push to Dev') {
+        stage('Build') {
             when {
-                branch 'dev'
+                anyOf { branch 'dev'; branch 'master' }
             }
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh "${DOCKER_CMD}"
+                }
+            }
+        }
+
+        stage('Push to Registry') {
+            when {
+                anyOf { branch 'dev'; branch 'master' }
+            }
+            steps {
+                script {
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
@@ -28,7 +38,9 @@ pipeline {
 
         stage('Testing') {
             steps {
-                // Add steps for running tests (e.g., unit tests, integration tests)
+                script {
+                    // Add commands for running tests
+                }
             }
         }
 
@@ -39,22 +51,13 @@ pipeline {
             }
         }
 
-        stage('Build and Push to Prod') {
-            when {
-                branch 'master'
-            }
-            steps {
-                script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
-                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
+        stage('Cleanup') {
+            post {
+                always {
+                    cleanWs() // Clean workspace
+                    sh 'docker system prune -af' // Remove unused Docker resources
                 }
             }
-        }
-    }
-
-    post {
-        always {
-            // Clean up or perform any cleanup tasks if needed
         }
     }
 }
