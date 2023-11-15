@@ -4,11 +4,6 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'nithinriya/myapp-dev'
         DOCKER_TAG = '1.0'
-        DOCKER_CMD = "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
- dev
-        DOCKER_HUB_CREDENTIALS = 'dockerhub-credentials' // Replace this with the actual ID
-
- master
     }
 
     stages {
@@ -18,50 +13,14 @@ pipeline {
             }
         }
 
-        stage('Build') {
- dev
-
+        stage('Build and Push to Dev') {
             when {
-                anyOf { branch 'dev'; branch 'master' }
+                branch 'dev'
             }
             steps {
                 script {
-                    sh "${DOCKER_CMD}"
-                }
-            }
-        }
-
-        stage('Push to Registry') {
- master
-            when {
-                anyOf { branch 'dev'; branch 'master' }
-            }
-            steps {
-                script {
- dev
-                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "${DOCKER_CMD}"
-                    }
-                }
-            }
-        }
-
-        stage('Push to Registry') {
-            when {
-                anyOf { branch 'dev'; branch 'master' }
-            }
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
-                        sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
-                    }
-                }
-            }
-        }
-
-        // ... (other stages remain the same)
-
+                    sh "echo '4f2aa697-be84-4124-b8c7-a568531c1aba' | docker login -u nithinriya --password-stdin"
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
                     sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
@@ -69,9 +28,7 @@ pipeline {
 
         stage('Testing') {
             steps {
-                script {
-                    // Add commands for running tests
-                }
+                // Add steps for running tests (e.g., unit tests, integration tests)
             }
         }
 
@@ -82,14 +39,17 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
-            post {
-                always {
-                    cleanWs() // Clean workspace
-                    sh 'docker system prune -af' // Remove unused Docker resources
+        stage('Build and Push to Prod') {
+            when {
+                branch 'master'
+            }
+            steps {
+                script {
+                    sh "echo '4f2aa697-be84-4124-b8c7-a568531c1aba' | docker login -u nithinriya --password-stdin"
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                 }
             }
         }
- master
     }
 }
