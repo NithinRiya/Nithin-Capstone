@@ -1,0 +1,12 @@
+# docker-compose.dev.yml
+
+version: '3'
+services:
+  myapp:
+    image: nithinriya/myapp-repo:dev
+    ports:
+      - "8080:80"
+    # Add other configurations as neededx
+
+
+
