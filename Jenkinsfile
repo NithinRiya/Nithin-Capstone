@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_DEV = 'nithinriya/myapp-dev'
         DOCKER_IMAGE_PROD = 'nithinriya/myapp-prod'
         DOCKER_TAG = '1.0'
-        DOCKER_HUB_CREDENTIALS = Nithin10$
+        DOCKER_HUB_CREDENTIALS = 'Nithin10$'
     }
 
     stages {
